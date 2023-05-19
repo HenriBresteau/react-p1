@@ -42,6 +42,9 @@ function UserList() {
         setFilteredUsers([...filteredUsers, addUser]);
     }, [addUser, filteredUsers]);
 
+    const deleteUser = useCallback((userId)=>{
+        setUsers(users.filter(user => user.id !== userId))
+    }, [users]);
     return (
         <div>
             <h2>Liste des utilisateurs</h2>
@@ -83,7 +86,7 @@ function UserList() {
             <div className="row gy-4">
                 {filteredUsers.map((user, index) => (
                     <div className="col-md-6 col-lg-4" key={index}>
-                        <UserProfile userData={user} />
+                        <UserProfile userData={user} deleteUser={deleteUser} />
                     </div>
                 ))}
             </div>

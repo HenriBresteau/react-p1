@@ -1,7 +1,9 @@
 import ProtoTypes from "prop-types";
 import linkedin from "/linkedin.svg";
+import { useCallback } from "react";
+import axios from "axios";
 
-function UserProfile({ userData }) {
+function UserProfile({ userData, deleteUser }) {
     let logo = userData.name.toLowerCase();
     if (
         logo === "anne" ||
@@ -12,6 +14,13 @@ function UserProfile({ userData }) {
     ) {
         logo = userData.toLowerCase() + ".png";
     } else logo = "/default.png";
+
+    const handleDelete = useCallback(() => {
+        axios.delete(
+            "https://jsonplaceholder.typicode.com/users/" + userData.id
+        );
+        deleteUser(userData.id);
+    }, [userData, deleteUser]);
     return (
         <div className="card bg-body-secondary">
             <div className="row">
@@ -28,13 +37,22 @@ function UserProfile({ userData }) {
                         <p className="card-text">
                             Some quick example text to build.
                         </p>
-                        <button
-                            type="button"
-                            className="btn btn-primary text-light "
-                        >
-                            <img src={linkedin} alt="linkedin" />
-                            <span className="ms-2">Contacter</span>
-                        </button>
+                        <div className="d-flex justify-content-between">
+                            <button
+                                type="button"
+                                className="btn btn-primary text-light "
+                            >
+                                <img src={linkedin} alt="linkedin" />
+                                <span className="ms-2">Contacter</span>
+                            </button>
+                            <button
+                                type="button"
+                                className="btn btn-outline-danger"
+                                onClick={handleDelete}
+                            >
+                                <i className="bi bi-trash3-fill"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -42,7 +60,7 @@ function UserProfile({ userData }) {
     );
 }
 UserProfile.propTypes = {
-    userData: ProtoTypes.object,
-    picture: ProtoTypes.bool,
+    userData: ProtoTypes.object.isRequired,
+    deleteUser: ProtoTypes.func.isRequired,
 };
 export default UserProfile;
