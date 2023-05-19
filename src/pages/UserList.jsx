@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import UserProfile from "../components/UserProfile";
+import axios from "axios";
 
-const users = ["Eva", "Aude", "Marc", "Anne"];
+
 function UserList() {
     const [search, setSearch] = useState("");
     const [addUser, setAddUser] = useState("");
-
+    const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
 
     const handleSearch = useCallback((event) => {
@@ -17,12 +18,24 @@ function UserList() {
     }, []);
 
     useEffect(() => {
+        // Fetch
+        // fetch("https://jsonplaceholder.typicode.com/users")
+        //     .then((res) => res.json())
+        //     .then((result) => setUsers(result));
+
+        //axios
+        axios
+            .get("https://jsonplaceholder.typicode.com/users")
+            .then((result) => setUsers(result.data));
+    }, []);
+
+    useEffect(() => {
         setFilteredUsers(
             users.filter((user) =>
-                user.toLowerCase().includes(search.toLowerCase())
+                user.name.toLowerCase().includes(search.toLowerCase())
             )
         );
-    }, [search]);
+    }, [search, users]);
 
     const handleClick = useCallback(() => {
         setAddUser(addUser);

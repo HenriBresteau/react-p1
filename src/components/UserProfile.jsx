@@ -2,7 +2,7 @@ import ProtoTypes from "prop-types";
 import linkedin from "/linkedin.svg";
 
 function UserProfile({ userData }) {
-    let logo = userData.toLowerCase();
+    let logo = userData.name.toLowerCase();
     if (
         logo === "anne" ||
         logo === "aude" ||
@@ -24,7 +24,7 @@ function UserProfile({ userData }) {
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">
-                        <h5 className="card-title">{userData}</h5>
+                        <h5 className="card-title">{userData.name}</h5>
                         <p className="card-text">
                             Some quick example text to build.
                         </p>
@@ -42,7 +42,7 @@ function UserProfile({ userData }) {
     );
 }
 UserProfile.propTypes = {
-    userData: ProtoTypes.string,
+    userData: ProtoTypes.object,
     picture: ProtoTypes.bool,
 };
 export default UserProfile;
