@@ -7,6 +7,8 @@ import SimLogin from "./pages/SimLogin";
 import { Route, Routes } from "react-router-dom";
 import Roles from "./pages/Roles";
 import Register from "./pages/RegisterFormix";
+import Page404 from "./pages/Page404";
+import Post from "./pages/Post";
 
 function App() {
     const [user, setUser] = useState("");
@@ -27,6 +29,8 @@ function App() {
                         path="/register"
                         element={<Register setUser={setUser} />}
                     />
+                    <Route path="/posts/:id" element={<Post />} />
+                    <Route path="*" element={<Page404 />} />
                 </Routes>
             </div>
         </div>
