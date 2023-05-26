@@ -6,7 +6,7 @@ import { useState } from "react";
 import SimLogin from "./pages/SimLogin";
 import { Route, Routes } from "react-router-dom";
 import Roles from "./pages/Roles";
-import Register from "./pages/Register";
+import Register from "./pages/RegisterFormix";
 
 function App() {
     const [user, setUser] = useState("");
@@ -23,7 +23,10 @@ function App() {
                     />
                     <Route path="/counter" element={<Counter />} />
                     <Route path="/roles" element={<Roles />} />
-                    <Route path="/register" element={<Register setUser={setUser} />} />
+                    <Route
+                        path="/register"
+                        element={<Register setUser={setUser} />}
+                    />
                 </Routes>
             </div>
         </div>
