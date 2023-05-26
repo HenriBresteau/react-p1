@@ -9,6 +9,7 @@ import Roles from "./pages/Roles";
 import Register from "./pages/RegisterFormix";
 import Page404 from "./pages/Page404";
 import Post from "./pages/Post";
+import User from "./pages/User";
 
 function App() {
     const [user, setUser] = useState("");
@@ -30,6 +31,7 @@ function App() {
                         element={<Register setUser={setUser} />}
                     />
                     <Route path="/posts/:id" element={<Post />} />
+                    <Route path="/users/:id" element={<User />} />
                     <Route path="*" element={<Page404 />} />
                 </Routes>
             </div>

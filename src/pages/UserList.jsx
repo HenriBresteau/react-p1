@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import UserProfile from "../components/UserProfile";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 
 function UserList() {
     const [search, setSearch] = useState("");
@@ -42,9 +42,13 @@ function UserList() {
         setFilteredUsers([...filteredUsers, addUser]);
     }, [addUser, filteredUsers]);
 
-    const deleteUser = useCallback((userId)=>{
-        setUsers(users.filter(user => user.id !== userId))
-    }, [users]);
+    const deleteUser = useCallback(
+        (userId) => {
+            setUsers(users.filter((user) => user.id !== userId));
+        },
+        [users]
+    );
+    const navigate = useNavigate();
     return (
         <div>
             <h2>Liste des utilisateurs</h2>
@@ -85,7 +89,12 @@ function UserList() {
             </div>
             <div className="row gy-4">
                 {filteredUsers.map((user, index) => (
-                    <div className="col-md-6 col-lg-4" key={index}>
+                    <div
+                        className="col-md-6 col-lg-4"
+                        key={index}
+                        onClick={() => navigate("/users/" + user.id)}
+                        role="button"
+                    >
                         <UserProfile userData={user} deleteUser={deleteUser} />
                     </div>
                 ))}
