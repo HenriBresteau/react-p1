@@ -6,7 +6,10 @@ function Header(props) {
     const login = props.user ? (
         <span>Bienvenue {props.user} </span>
     ) : (
-        <span>Connctez vous</span>
+        <>
+            <Link to="/login">Connctez vous</Link> <br /> ou&nbsp;
+            <Link to="/register">Créer un compte</Link>
+        </>
     );
     return (
         <>
