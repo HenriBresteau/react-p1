@@ -88,21 +88,27 @@ function UserList() {
                 </div>
             </div>
             <div className="row gy-4">
-                {filteredUsers.map((user, index) => (
-                    <div
-                        className="col-md-6 col-lg-4"
-                        key={index}
-                        onClick={() => navigate("/users/" + user.id)}
-                        role="button"
-                    >
-                        <UserProfile userData={user} deleteUser={deleteUser} />
+                {users.length ? (
+                    filteredUsers.map((user, index) => (
+                        <div
+                            className="col-md-6 col-lg-4"
+                            key={index}
+                            onClick={() => navigate("/users/" + user.id)}
+                            role="button"
+                        >
+                            <UserProfile
+                                userData={user}
+                                deleteUser={deleteUser}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <div className="col-12 text-center mt-4">
+                        <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
                     </div>
-                ))}
-            </div>
-            <div className="col-12 text-center mt-4">
-                <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
+                )}
             </div>
         </div>
     );

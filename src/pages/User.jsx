@@ -14,8 +14,15 @@ function User() {
     }, [id]);
     return (
         <div>
-            {user.name}
-            <UserProfile userData={user} complete></UserProfile>
+            {user.name ? (
+                <UserProfile userData={user} complete></UserProfile>
+            ) : (
+                <div className="col-12 text-center mt-4">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
