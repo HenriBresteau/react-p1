@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/react.svg";
 import ProtoTypes from "prop-types";
+import { useCallback, useContext } from "react";
+import { Context } from "../context";
+import classNames from "classnames";
 
 function Header(props) {
+    const { context, dispatch } = useContext(Context);
+
     const login = props.user ? (
         <span>Bienvenue {props.user} </span>
     ) : (
@@ -11,9 +16,19 @@ function Header(props) {
             <Link to="/register">Créer un compte</Link>
         </>
     );
+    const switchTheme = useCallback(() => {
+        dispatch({ type: "switchTheme" });
+    }, [dispatch]);
     return (
         <>
-            <nav className="navbar navbar-dark bg-dark navbar-expand-md">
+            <nav
+                className={classNames(
+                    "navbar navbar-expand-md",
+                    context.theme === "light"
+                        ? "navbar-dark bg-dark text-light"
+                        : "navbar-light bg-light text-dark"
+                )}
+            >
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/">
                         <img
@@ -51,6 +66,22 @@ function Header(props) {
                             </Link>
                         </li>
                     </ul>
+
+                    <div className="form-check form-switch">
+                        <input
+                            className="form-check-input"
+                            type="checkbox"
+                            role="switch"
+                            id="flexSwitchCheckDefault"
+                            onChange={switchTheme}
+                        />
+                        <label
+                            className="form-check-label"
+                            htmlFor="flexSwitchCheckDefault"
+                        >
+                            {context.theme}
+                        </label>
+                    </div>
                     <div className="navbar-text">{login}</div>
                 </div>
             </nav>

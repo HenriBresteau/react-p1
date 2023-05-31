@@ -1,7 +1,9 @@
 import ProtoTypes from "prop-types";
 import linkedin from "/linkedin.svg";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import axios from "axios";
+import classNames from "classnames";
+import { Context } from "../context";
 
 function UserProfile(props) {
     const handleDelete = useCallback(
@@ -15,8 +17,16 @@ function UserProfile(props) {
         },
         [props]
     );
+    const { context } = useContext(Context);
     return (
-        <div className="card bg-body-secondary">
+        <div
+            className={classNames(
+                "card",
+                context.theme === "light"
+                    ? "bg-dark text-light"
+                    : "bg-light text-dark"
+            )}
+        >
             <div className="row">
                 <div className="col-md-4">
                     {/* <img
