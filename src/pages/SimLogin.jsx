@@ -1,13 +1,35 @@
+import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import propTypes from "prop-types";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
+const fakeAxios = {
+    post: (url, data) => {
+        if (url === "/api/login") {
+            if (data.login === "moi" && data.password === "123456") {
+                return Promise.resolve({
+                    status: 200,
+                    data: { token: "xxx.yyy.zzz" },
+                });
+            } else {
+                return Promise.reject({
+                    status: 401,
+                });
+            }
+        } else {
+            return axios.post(url, data);
+        }
+    },
+};
 function SimLogin({ setUser }) {
     const navigate = useNavigate();
+    const [authError, setAuthError] = useState("");
     return (
         <div>
-            <h2>Connection</h2>
+            <h2>Connexion</h2>
+            {authError && <div className="alert alert-danger">{authError}</div>}
             <Formik
                 initialValues={{
                     login: "",
@@ -19,10 +41,26 @@ function SimLogin({ setUser }) {
                     ),
                     password: Yup.string().required("Un mdp est obligatoire"),
                 })}
-                onSubmit={async (values, { setSubmitting }) => {
-                    navigate("/");
-                    setUser(values.login);
-                    setSubmitting(false);
+                onSubmit={async ({ login, password }) => {
+                    try {
+                        const response = await fakeAxios.post("/api/login", {
+                            login,
+                            password,
+                        });
+                        axios.defaults.headers.common[
+                            "Authorization"
+                        ] = `Bearer: ${response.data.token}`;
+                        setUser(login);
+                        // setSubmitting(false);
+                        navigate("/");
+                    } catch (error) {
+                        if (error.status === 401) {
+                            setAuthError("Login ou mot de passe incorrect");
+                        } else {
+                            console.error(error);
+                            setAuthError(error.mesasge);
+                        }
+                    }
                 }}
             >
                 {({ isSubmitting }) => (
