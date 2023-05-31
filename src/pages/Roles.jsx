@@ -27,6 +27,7 @@ function Roles() {
 
     return (
         <div>
+            <h2>Liste des roles</h2>
             <input
                 type="text"
                 placeholder="recherche"
