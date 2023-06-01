@@ -16,6 +16,10 @@ const reducer = (state, action) => {
                 ...state,
                 user: action.payload,
             };
+        case "disconnect":
+            return {
+                user: {},
+            };
         default:
             throw Error("Unknow action in context reducer");
     }

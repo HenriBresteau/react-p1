@@ -6,9 +6,23 @@ import classNames from "classnames";
 
 function Header() {
     const { context, dispatch } = useContext(Context);
+    const disconnect = useCallback(() => {
+        dispatch({ type: "disconnect" });
+    }, [dispatch]);
 
     const login = context.user.name ? (
-        <span>Bienvenue {context.user.name} </span>
+        <div className="d-flex flex-column align-items-center gap-2">
+            <span>Bienvenue {context.user.name} </span>
+            <div
+                className={classNames("btn btn-outline-" + context.theme)}
+                onClick={disconnect}
+                id="logout"
+            >
+                <i className="bi bi-box-arrow-right d-flex align-items-center gap-2">
+                    Déconnexion
+                </i>
+            </div>
+        </div>
     ) : (
         <ul className=" navbar-nav d-flex  justify-content-center align-items-center">
             <li className="nav-item">
@@ -66,11 +80,6 @@ function Header() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/counter">
                                 Compteur
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">
-                                Login
                             </Link>
                         </li>
                         <li className="nav-item">
