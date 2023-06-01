@@ -1,20 +1,33 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/react.svg";
-import ProtoTypes from "prop-types";
 import { useCallback, useContext } from "react";
 import { Context } from "../context";
 import classNames from "classnames";
 
-function Header(props) {
+function Header() {
     const { context, dispatch } = useContext(Context);
 
-    const login = props.user ? (
-        <span>Bienvenue {props.user} </span>
+    const login = context.user.name ? (
+        <span>Bienvenue {context.user.name} </span>
     ) : (
-        <>
-            <Link to="/login">Connctez vous</Link> <br /> ou&nbsp;
-            <Link to="/register">Créer un compte</Link>
-        </>
+        <ul className=" navbar-nav d-flex  justify-content-center align-items-center">
+            <li className="nav-item">
+                <Link
+                    to="/login"
+                    className="nav-link d-flex flex-column align-items-center gap-2"
+                >
+                    <i className="bi bi-door-open fs-4"></i> Se Connecter
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link
+                    to="/register"
+                    className="nav-link d-flex flex-column align-items-center gap-2"
+                >
+                    <i className="bi bi-person-add fs-4"></i> Créer un compte
+                </Link>
+            </li>
+        </ul>
     );
     const switchTheme = useCallback(() => {
         dispatch({ type: "switchTheme" });
@@ -67,7 +80,7 @@ function Header(props) {
                         </li>
                     </ul>
 
-                    <div className="form-check form-switch">
+                    <div className="form-check form-switch mb-0">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -82,14 +95,13 @@ function Header(props) {
                             {context.theme}
                         </label>
                     </div>
-                    <div className="navbar-text">{login}</div>
+                    <div className="navbar-text border rounded px-2">
+                        {login}
+                    </div>
                 </div>
             </nav>
         </>
     );
 }
 
-Header.propTypes = {
-    user: ProtoTypes.string,
-};
 export default Header;

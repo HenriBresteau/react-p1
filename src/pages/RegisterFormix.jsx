@@ -1,11 +1,12 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import propTypes from "prop-types";
 import { Form, Field, ErrorMessage, Formik } from "formik";
 import * as Yup from "yup";
+import { Context } from "../context";
 
-function Register(props) {
+function Register() {
+    const { dispatch } = useContext(Context);
     const [countries, setCountries] = useState([]);
     useEffect(() => {
         axios
@@ -40,7 +41,7 @@ function Register(props) {
                         );
                         setSubmitting(false);
                         navigate("/");
-                        props.setUser(name);
+                        dispatch({ type: "setUser", payload: values });
                     } catch (error) {
                         console.error(error);
                         setSubmitting(false);
@@ -137,10 +138,10 @@ function Register(props) {
                                 <Field
                                     component="select"
                                     className="form-select"
-                                    aria-label="Default select example"
                                     id="country"
+                                    name="country"
                                 >
-                                    <option></option>
+                                    <option value=""></option>
                                     {countries.map((country, index) => (
                                         <option
                                             key={index}
@@ -172,8 +173,5 @@ function Register(props) {
         </div>
     );
 }
-Register.propTypes = {
-    setUser: propTypes.func.isRequired,
-};
 
 export default Register;

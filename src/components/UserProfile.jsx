@@ -4,7 +4,7 @@ import { useCallback, useContext } from "react";
 import axios from "axios";
 import classNames from "classnames";
 import { Context } from "../context";
-
+import logo from "/default.png";
 function UserProfile(props) {
     const handleDelete = useCallback(
         (event) => {
@@ -27,13 +27,13 @@ function UserProfile(props) {
                     : "bg-light text-dark"
             )}
         >
-            <div className="row">
-                <div className="col-md-4">
-                    {/* <img
+            <div className="row mx-0">
+                <div className="col-md-4 align-self-center">
+                    <img
                         src={logo}
                         className="img-fluid rounded-circle mx-auto d-block"
                         alt="ui"
-                    /> */}
+                    />
                 </div>
                 <div className="col-md-8">
                     <div className="card-body">

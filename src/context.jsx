@@ -2,6 +2,7 @@ import { createContext, useReducer } from "react";
 
 const initialState = {
     theme: "light",
+    user: {},
 };
 const reducer = (state, action) => {
     switch (action.type) {
@@ -10,7 +11,11 @@ const reducer = (state, action) => {
                 ...state,
                 theme: state.theme === "light" ? "dark" : "light",
             };
-            
+        case "setUser":
+            return {
+                ...state,
+                user: action.payload,
+            };
         default:
             throw Error("Unknow action in context reducer");
     }

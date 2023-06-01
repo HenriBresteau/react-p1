@@ -2,7 +2,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Counter from "./pages/Counter";
 import UserList from "./pages/UserList";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import SimLogin from "./pages/SimLogin";
 import { Route, Routes } from "react-router-dom";
 import Roles from "./pages/Roles";
@@ -14,7 +14,6 @@ import classNames from "classnames";
 import { Context } from "./context";
 
 function App() {
-    const [user, setUser] = useState("");
     const { context } = useContext(Context);
     return (
         <div
@@ -22,19 +21,19 @@ function App() {
                 "text-light": context.theme === "dark",
             })}
         >
-            <Header user={user} />
+            <Header />
             <div className="container p-3">
                 <Routes>
                     <Route path="/" element={<UserList />} />
                     <Route
                         path="/login"
-                        element={<SimLogin setUser={setUser} />}
+                        element={<SimLogin />}
                     />
                     <Route path="/counter" element={<Counter />} />
                     <Route path="/roles" element={<Roles />} />
                     <Route
                         path="/register"
-                        element={<Register setUser={setUser} />}
+                        element={<Register />}
                     />
                     <Route path="/posts/:id" element={<Post />} />
                     <Route path="/users/:id" element={<User />} />

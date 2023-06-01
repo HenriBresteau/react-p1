@@ -1,9 +1,9 @@
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import propTypes from "prop-types";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { Context } from "../context";
 
 const fakeAxios = {
     post: (url, data) => {
@@ -11,7 +11,7 @@ const fakeAxios = {
             if (data.login === "moi" && data.password === "123456") {
                 return Promise.resolve({
                     status: 200,
-                    data: { token: "xxx.yyy.zzz" },
+                    data: { token: "xxx.yyy.zzz", user: { name: data.login } },
                 });
             } else {
                 return Promise.reject({
@@ -23,8 +23,9 @@ const fakeAxios = {
         }
     },
 };
-function SimLogin({ setUser }) {
+function SimLogin() {
     const navigate = useNavigate();
+    const { dispatch } = useContext(Context);
     const [authError, setAuthError] = useState("");
     return (
         <div>
@@ -50,8 +51,10 @@ function SimLogin({ setUser }) {
                         axios.defaults.headers.common[
                             "Authorization"
                         ] = `Bearer: ${response.data.token}`;
-                        setUser(login);
-                        // setSubmitting(false);
+                        dispatch({
+                            type: "setUser",
+                            payload: response.data.user,
+                        });
                         navigate("/");
                     } catch (error) {
                         if (error.status === 401) {
@@ -122,7 +125,4 @@ function SimLogin({ setUser }) {
         </div>
     );
 }
-SimLogin.propTypes = {
-    setUser: propTypes.func.isRequired,
-};
 export default SimLogin;
